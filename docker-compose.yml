@@ -1,0 +1,25 @@
+services: # 起動するコンテナ群（サービス）の定義
+  db:
+    image: mysql:8.0 # 使用するDockerイメージ
+    container_name: mysql
+    environment: # 環境変数の設定
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: feelog
+    ports:
+      - "3306:3306" # ポートマッピング（ホスト:コンテナ）
+    volumes:
+      - db_data:/var/lib/mysql # 永続化ボリュームの指定
+
+  # backend:
+  #   image: golang:1.22-alpine
+  #   working_dir: /app # 作業ディレクトリ
+  #   volumes:
+  #     - ./backend:/app # ローカルフォルダとコンテナ内の同期
+  #   command: go run main.go # コンテナ起動時に実行するコマンド
+  #   ports:
+  #     - "8080:8080"
+  #   depends_on:
+  #     - db # dbサービスが起動してから実行
+
+volumes: # 永続化ボリュームの定義
+  db_data:
